@@ -18,12 +18,13 @@ package com.google.samples.cronet_sample.data;
 public class ImageRepository {
 
     private static String[] imageUrls= {
-            "https://storage.googleapis.com/cronet/sun.jpg",
-            "https://storage.googleapis.com/cronet/flower.jpg",
-            "https://storage.googleapis.com/cronet/chair.jpg",
-            "https://storage.googleapis.com/cronet/white.jpg",
-            "https://storage.googleapis.com/cronet/moka.jpg",
-            "https://storage.googleapis.com/cronet/walnut.jpg"
+//            "http://storage.googleapis.com/cronet/sun.jpg",
+//            "http://storage.googleapis.com/cronet/flower.jpg",
+//            "http://storage.googleapis.com/cronet/chair.jpg",
+//            "http://storage.googleapis.com/cronet/white.jpg",
+//            "http://storage.googleapis.com/cronet/moka.jpg",
+//            "http://storage.googleapis.com/cronet/walnut.jpg"
+            "https://cloudflare-quic.com"
     };
 
     public static int numberOfImages() {

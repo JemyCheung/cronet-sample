@@ -144,6 +144,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
             android.util.Log.i(TAG,
                     "****** Cronet Request Completed, status code is " + info.getHttpStatusCode()
                             + ", total received bytes is " + info.getReceivedByteCount());
+
+            android.util.Log.i(TAG,
+                    "****** Cronet Request Completed, status code is " + info.getHttpStatusCode()
+                            + ", getNegotiatedProtocol: " + info.getNegotiatedProtocol());
             // Set the latency
             ((MainActivity) context).addCronetLatency(stop - start);
 
@@ -169,17 +173,20 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         return ImageRepository.numberOfImages();
     }
 
+    private boolean isUseCronet = false;
     private static synchronized CronetEngine getCronetEngine(Context context) {
-        // Lazily create the Cronet engine.
-        if (cronetEngine == null) {
-            CronetEngine.Builder myBuilder = new CronetEngine.Builder(context);
-            // Enable caching of HTTP data and
-            // other information like QUIC server information, HTTP/2 protocol and QUIC protocol.
-            cronetEngine = myBuilder
-                    .enableHttpCache(CronetEngine.Builder.HTTP_CACHE_IN_MEMORY, 100 * 1024)
-                    .enableHttp2(true)
-                    .enableQuic(true)
-                    .build();
+        if (isUseCronet) {
+            // Lazily create the Cronet engine.
+            if (cronetEngine == null) {
+                CronetEngine.Builder myBuilder = new CronetEngine.Builder(context);
+                // Enable caching of HTTP data and
+                // other information like QUIC server information, HTTP/2 protocol and QUIC protocol.
+                cronetEngine = myBuilder
+                        .enableHttpCache(CronetEngine.Builder.HTTP_CACHE_IN_MEMORY, 100 * 1024)
+                        .enableHttp2(false).addQuicHint("cloudflare-quic.com", 443, 443)
+                        .enableQuic(true)
+                        .build();
+            }
         }
         return cronetEngine;
     }
